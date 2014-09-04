@@ -1,0 +1,159 @@
+[Stack]
+FillEnabled=0
+OverflowWarningsEnabled=1
+WarningThreshold=90
+SpWarningsEnabled=1
+WarnLogOnly=1
+UseTrigger=0
+TriggerName=main
+LimitSize=0
+ByteLimit=50
+[JLinkDriver]
+CStepIntDis=_ 0
+TraceBufferSize=0x00010000
+TraceStallIfFIFOFull=0x00000000
+TracePortSize=0x00000000
+[Exceptions]
+StopOnUncaught=_ 0
+StopOnThrow=_ 0
+[DebugChecksum]
+Checksum=1615377946
+[CallStack]
+ShowArgs=0
+[Disassembly]
+MixedMode=1
+[BreakpointUsageDialog]
+Placement=_ 578 289 1023 571
+[FlashMemory]
+FlashEraseSelection=0 1  
+[Jet]
+JetConnSerialNo=54536
+JetConnFoundProbes=
+DisableInterrupts=0
+MultiCoreRunAll=0
+OnlineReset=System
+PrevWtdReset=System
+[PlDriver]
+FirstRun=0
+MemConfigValue=C:\Program Files\IAR Systems\Embedded Workbench 7.0\arm\CONFIG\debugger\Freescale\MKL25Z32xxx4.ddf
+[SWOManager]
+SamplingDivider=8192
+OverrideClock=0
+CpuClock=3997797
+SwoClock=7864368
+DataLogMode=0
+ItmPortsEnabled=63
+ItmTermIOPorts=1
+ItmLogPorts=0
+ItmLogFile=$PROJ_DIR$\ITM.log
+PowerForcePC=1
+PowerConnectPC=1
+[ArmDriver]
+EnableCache=1
+[ETMTraceWindow]
+PortWidth=4
+PortMode=0
+PreferETB=0
+CaptureDataValues=0
+CaptureDataAddresses=0
+CaptureDataRange=0
+DataFirst=0
+DataLast=-1
+StopWhen=0
+StallCPU=0
+NoPCCapture=0
+[SWOTraceHWSettings]
+OverrideDefaultClocks=0
+CpuClock=72000000
+ClockAutoDetect=0
+ClockWanted=2000000
+JtagSpeed=2000000
+Prescaler=36
+TimeStampPrescIndex=0
+TimeStampPrescData=0
+PcSampCYCTAP=1
+PcSampPOSTCNT=15
+PcSampIndex=0
+DataLogMode=0
+ITMportsEnable=0
+ITMportsTermIO=0
+ITMportsLogFile=0
+ITMlogFile=$PROJ_DIR$\ITM.log
+[watch_formats]
+Fmt0={W}0:SCB_VTOR	4	0
+Fmt1={W}0:destination	4	0
+[SWOTraceWindow]
+PcSampling=0
+InterruptLogs=0
+ForcedTimeStamps=0
+EventCPI=0
+EventEXC=0
+EventFOLD=0
+EventLSU=0
+EventSLEEP=0
+[PowerLog]
+LogEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=0
+Title_0=I0
+Symbol_0=0 4 1
+LiveEnabled=0
+LiveFile=PowerLogLive.log
+[DataLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+[EventLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+SumSortOrder=0
+[InterruptLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+SumSortOrder=0
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""
+[CallStackLog]
+Enabled=0
+[PowerProbe]
+Frequency=10000
+Probe0=I0
+ProbeSetup0=2 1 1 2 0 0
+[DriverProfiling]
+Enabled=0
+Mode=2
+Graph=0
+Symbiont=0
+Exclusions=
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
+[Breakpoints2]
+Count=0
+[Disassemble mode]
+mode=0
+[Breakpoints]
+Bp0=_ "STD_CODE" "0x0000ECF8" 0 0 0 0 "" 0 "" 0
+Bp1=_ "STD_CODE" "0x0000EC98" 0 0 0 0 "" 0 "" 0
+Bp2=_ "STD_CODE" "0x0000D2F8" 0 0 0 0 "" 0 "" 0
+Bp3=_ "STD_CODE" "0x00004930" 0 0 0 0 "" 0 "" 0
+Bp4=_ "STD_CODE" "0x0000F660" 0 0 0 0 "" 0 "" 0
+Bp5=_ "STD_CODE" "0x000074D0" 0 0 0 0 "" 0 "" 0
+Bp6=_ "STD_CODE" "0x00007100" 0 0 0 0 "" 0 "" 0
+Bp7=_ "STD_CODE" "0x00008068" 0 0 0 0 "" 0 "" 0
+Bp8=_ "STD_CODE" "{D:\Bootloader\an2295sw\src\Kinetis\CommonSource\Bootloader\bootloader.c}.418.3" 0 0 0 0 "" 0 "" 0
+Count=9
+[Aliases]
+Count=0
+SuppressDialog=0
