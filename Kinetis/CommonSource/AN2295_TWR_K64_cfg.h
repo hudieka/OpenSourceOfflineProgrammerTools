@@ -2,13 +2,12 @@
 /** USER SETTINGS OF KINETIS MCU */
 /**  Kinetis ARM Cortex-M4 model */
 //K10_50MHz K11_50MHz K12_50MHz K10_72MHz K10_100MHz K10_120MHz 
-//K20_50MHz K21_50MHz K22_50MHz K20_72MHz K20_100MHz K22_100MHz K20_120MHz 
+//K20_50MHz K21_50MHz K22_50MHz K20_72MHz K20_100MHz K20_120MHz 
 //K30_72MHz K30_100MHz 
 //K40_72MHz K40_100MHz 
 //K50_72MHz K51_72MHz K50_100MHz 
 //K60_100MHz K60_120MHz 
 //K70_120MHz
-//K22F_100MHz
 
 /**  Kinetis ARM Cortex-M0+ model */
 //KL0_48MHz
@@ -16,7 +15,9 @@
 //KL2_48MHz KL25_48MHz
 
 
-#define KINETIS_MODEL K22_100MHz // K20_1M_100MHz
+#define KINETIS_MODEL K64_120MHz
+//#define KINETIS_K60_OM33Z
+
 
 /*  in the case of using USB VIRTUAL SERIAL LINK you must activate No break TRIM CHECKBOX in the master AN2295 PC Application  */
 /*  the break impulse is replaced by using only 9 bits zero impulse  */
@@ -27,18 +28,18 @@
 
 /** Kinetis Flash memory size */
 
-#define KINETIS_FLASH FLASH_1024K
+#define KINETIS_FLASH FLASH_512K
 
 /** Bootloader flash protection */
 #define BOOTLOADER_FLASH_PROTECTION 0
 
 /** Boot timeout after POR (Power On Reset) for wait to connect Master **/
 /** BOOT_WAITING_TIMEOUT * 10ms **/
-#define BOOT_WAITING_TIMEOUT 100
+#define BOOT_WAITING_TIMEOUT 1000
 
 /**************************************************/
 /* Actual used UART module */
-#define BOOT_UART_BASE UART0_BASE_PTR
+#define BOOT_UART_BASE UART5_BASE_PTR
 
 /* Actual used UART module */
 /* A range of UART baudrates is (9600 - 115200) */
@@ -46,7 +47,7 @@
 
 /** GPIO & UART pins initialization */
 
-#define BOOT_UART_GPIO_PORT PORTA_BASE_PTR
+#define BOOT_UART_GPIO_PORT PORTE_BASE_PTR
 
 /*  setting of multiplexer for UART alternative of pin */
 #define BOOT_PIN_UART_ALTERNATIVE 3
@@ -54,17 +55,17 @@
 /*  setting of multiplexer for GPIO alternative of pin */
 #define BOOT_PIN_GPIO_ALTERNATIVE 1
 
-#define BOOT_UART_GPIO_PIN_RX   15  
+#define BOOT_UART_GPIO_PIN_RX   9  
 
-#define BOOT_UART_GPIO_PIN_TX   14  
+#define BOOT_UART_GPIO_PIN_TX   8  
 
 /**************************************************/
 /* Actual used PIN reset setting */
-#define BOOT_PIN_ENABLE_PORT_BASE  PORTC_BASE_PTR   
+#define BOOT_PIN_ENABLE_PORT_BASE  PORTA_BASE_PTR   
 
-#define BOOT_PIN_ENABLE_GPIO_BASE  PTC_BASE_PTR   
+#define BOOT_PIN_ENABLE_GPIO_BASE  PTA_BASE_PTR   
 
-#define BOOT_PIN_ENABLE_NUM        7          
+#define BOOT_PIN_ENABLE_NUM        19          
 
 
 /**************************************************/
@@ -79,10 +80,10 @@
 
 #define BOOTLOADER_AUTO_TRIMMING    1 
 
-#define BOOTLOADER_PIN_ENABLE       0
+#define BOOTLOADER_PIN_ENABLE       1
 /**************************************************/
 /** CALIBRATION OF BOOTLOADER TRIM SETTINGS */
-#define BOOT_CALIBRATION_GPIO_BASE  PTA_BASE_PTR
+#define BOOT_CALIBRATION_GPIO_BASE  PTC_BASE_PTR
 /******************************************************************************
 *
 *

@@ -110,11 +110,27 @@
 
 #define LOCK_MCU    0x12344321
 
+//yangliang need to change
+
+#if defined(KINETIS_K60)
+
+#define SECTOR_SIZE 2048
+#define RAMBUF_SIZE 1024
+#define RAMBUF_ADDR 0x1ffffC00
+
+#elif defined(KINETIS_KL25)
+
 #define SECTOR_SIZE 1024
 #define RAMBUF_SIZE 1024
 #define RAMBUF_ADDR 0x1ffffC00
 
+#elif defined(KINETIS_K64)
 
+#define SECTOR_SIZE 4096
+#define RAMBUF_SIZE 1024
+#define RAMBUF_ADDR 0x1ffffC00
+
+#endif
 
 /** Bootloader protocol version */
 #define BOOTLOADER_PROTOCOL_VERSION VERSION_KINETIS

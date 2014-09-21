@@ -273,6 +273,7 @@ void t_reset()
 }
 
 uint32_t filenb = 0;		//表示目标文件占用的扇区个数
+uint32_t fileram = 0;  		//表示目标文件占用的编程缓冲区个数
 uint32_t * pread = 0, *pwrite = 0;
 
 void command_exec(void)
@@ -354,6 +355,21 @@ void command_exec(void)
 			;
 		}
 		gpio_set_cdc_led(0);
+		/*
+		while(gpio_get_pin_loader_state())
+		{
+			;
+		}
+		gpio_set_cdc_led(1);
+
+		while(!gpio_get_pin_loader_state())
+		{
+			;
+		}
+		gpio_set_cdc_led(0);
+		*/
+
+		
 		t_reset();	
 
 		
@@ -455,7 +471,7 @@ void command_exec(void)
 			writereg = 0;
 			t_write_mem(0,HWBCR, 32, 1, (unsigned char *)&writereg);
 			//write addr
-			writereg = 0x400*i;
+			writereg = sectorsize*i;
 			t_write_mem(0,HWBFR, 32, 1, (unsigned char *)&writereg);
 		
 			writereg = CMD_ERASE;
@@ -495,10 +511,18 @@ void command_exec(void)
 
 		t_read_mem(0,HWFCG1, 32, 1, (unsigned char *)&rambufsize);
 		t_read_mem(0,HWFCG2, 32, 1, (unsigned char *)&rambufaddr);
-		
-		for(i = 0; i < filenb;i++)
+
+		t_read_mem(0,HWSID, 32, 1, (unsigned char *)&sectorsize);
+
+		fileram = (*(uint32_t *)FILE_SIZE)/rambufsize;
+		if((*(uint32_t *)FILE_SIZE)%rambufsize)
 		{
-			for(j = 0; j < (sectorsize/rambufsize); j++)
+			fileram++;
+		}
+		
+		//for(i = 0; i < filenb;i++)
+		{
+			for(j = 0; j < fileram; j++)
 			{
 
 				gpio_set_cdc_led(led_state);
@@ -509,15 +533,15 @@ void command_exec(void)
 				t_write_mem(0,HWBUFADDR, 32, 1, (unsigned char *)&writereg);	
 
 		
-				pwrite = (uint32_t *)(START_APP_ADDRESS + sectorsize*i + rambufsize*j);
+				pwrite = (uint32_t *)(START_APP_ADDRESS + rambufsize*j);
 				pread = (uint32_t *)READBACK_ADDR;
-					t_write_mem(0,rambufaddr, 8, rambufsize, (unsigned char *)pwrite);
+				t_write_mem(0,rambufaddr, 8, rambufsize, (unsigned char *)pwrite);
 					
 				//write word len
 				writereg = rambufsize/4;			//编程一次写4个字节
 				t_write_mem(0,HWBCR, 32, 1, (unsigned char *)&writereg);
 				//write addr
-				writereg = sectorsize*i + rambufsize*j;
+				writereg = rambufsize*j;
 				t_write_mem(0,HWBFR, 32, 1, (unsigned char *)&writereg);
 				//write cmd
 				writereg = CMD_PROGRA;

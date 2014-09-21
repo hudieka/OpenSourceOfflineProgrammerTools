@@ -460,7 +460,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>466</TopLine>
+      <TopLine>471</TopLine>
       <CurrentLine>474</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\shared\cmsis\TARGET_Freescale\TARGET_MK20DX\TOOLCHAIN_ARM_STD\startup_MK20D5.s</PathWithFileName>
@@ -474,10 +474,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>22</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>188</TopLine>
+      <CurrentLine>196</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\shared\cmsis\TARGET_Freescale\TARGET_MK20DX\system_MK20D5.c</PathWithFileName>
       <FilenameWithoutPath>system_MK20D5.c</FilenameWithoutPath>
@@ -496,7 +496,7 @@
       <GroupNumber>2</GroupNumber>
       <FileNumber>3</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -514,10 +514,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>5</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>140</TopLine>
-      <CurrentLine>155</CurrentLine>
+      <TopLine>141</TopLine>
+      <CurrentLine>150</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\Common\src\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
@@ -530,10 +530,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>11</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>152</TopLine>
-      <CurrentLine>170</CurrentLine>
+      <TopLine>164</TopLine>
+      <CurrentLine>172</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\Common\src\RTX_Config.c</PathWithFileName>
       <FilenameWithoutPath>RTX_Config.c</FilenameWithoutPath>
@@ -610,10 +610,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>5</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>488</TopLine>
-      <CurrentLine>496</CurrentLine>
+      <TopLine>354</TopLine>
+      <CurrentLine>360</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\Common\src\Debug_cm.c</PathWithFileName>
       <FilenameWithoutPath>Debug_cm.c</FilenameWithoutPath>
@@ -626,10 +626,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>5</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>384</TopLine>
-      <CurrentLine>385</CurrentLine>
+      <TopLine>390</TopLine>
+      <CurrentLine>398</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\Common\src\swd_host.c</PathWithFileName>
       <FilenameWithoutPath>swd_host.c</FilenameWithoutPath>
@@ -676,7 +676,7 @@
       <Focus>0</Focus>
       <ColumnNumber>29</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>203</TopLine>
+      <TopLine>205</TopLine>
       <CurrentLine>213</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\Common\src\SW_DP.c</PathWithFileName>
@@ -748,7 +748,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>150</TopLine>
+      <TopLine>152</TopLine>
       <CurrentLine>172</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\hal\TARGET_Freescale\TARGET_MK20DX\gpio.c</PathWithFileName>
@@ -860,7 +860,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>114</TopLine>
+      <TopLine>116</TopLine>
       <CurrentLine>126</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\hal\TARGET_Freescale\TARGET_MK20DX\C90TFS\drvsrc\source\FlashCommandSequence.c</PathWithFileName>

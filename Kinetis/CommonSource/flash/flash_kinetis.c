@@ -31,12 +31,8 @@ extern LWord FLASH_FlashCommandSequenceStart(Byte index);
 *
 ********************************************************/
 void FLASH_Initialization(void)
-{
-  LWord i;
-  volatile Byte* ptr_FlashCommandSequenceStart = ((Byte*)FLASH_FlashCommandSequenceStart - 1);
-  
-  
-  //  inititalization of flash clock module 
+{   
+   //  inititalization of flash clock module 
    FLASH_INIT_FLASH_CLOCK; // done in main function
 }
 
@@ -61,12 +57,8 @@ LWord FLASH_ProgramLongWord(LWord destination, LWord data32b)
 		CommandObj.regsLong.fccob7654  = 0x9804B003;
   }
 */
-#if defined(KINETIS_E)
-	return FLASH_FlashCommandSequenceStart(PROGRAM_LONGWORD_INDEX);
-#else
-	return FLASH_FlashCommandSequenceStart(PROGRAM_LONGWORD_INDEX);
-#endif
 
+   return FLASH_FlashCommandSequenceStart(PROGRAM_LONGWORD_INDEX);
   
 }
 
@@ -88,6 +80,8 @@ LWord FLASH_ProgramPhrase(LWord destination, LWord * data64b)
 
 LWord data = 0;
 
+#if defined(KINETIS_FTFE)
+
 /********************************************************
 * Function for Programming of section by simple longs
 *
@@ -98,6 +92,60 @@ LWord FLASH_ProgramSectionByLongs(LWord destination, LWord* pSource, LWord size)
   LWord *pdata;
 
   pdata = pSource;
+  
+  size = size/2;
+  
+  while(size--)
+  {  	
+	data = *pdata;
+    
+    if(FLASH_ProgramPhrase(destination, pdata) != FLASH_OK)
+    {
+		return FLASH_FAIL;
+    }
+	
+    destination += 8;
+    
+    pdata++;
+    pdata++;
+
+	//don't program sec bit
+	if(destination == 0x408)
+	{
+          
+          if(HWFSEC == LOCK_MCU)
+  	  {
+		*(pdata+1) = 0xFFFFFFFD;
+	  }
+	  else
+	  {
+		 *(pdata+1) = 0xFFFFFFFE;
+
+	  }
+          
+	}
+        
+        
+
+  }
+  return FLASH_OK;
+}
+
+#else
+
+
+/********************************************************
+* Function for Programming of section by simple longs
+*
+********************************************************/
+LWord FLASH_ProgramSectionByLongs(LWord destination, LWord* pSource, LWord size)
+{ 
+
+  LWord *pdata;
+
+  pdata = pSource;
+  
+  
   
   while(size--)
   {  
@@ -140,7 +188,7 @@ LWord FLASH_ProgramSectionByLongs(LWord destination, LWord* pSource, LWord size)
   }
   return FLASH_OK;
 }
-
+#endif
 /********************************************************
 * Function for Programming of one section (maximum is 2048 Bytes) 
 *

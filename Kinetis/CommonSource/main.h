@@ -86,6 +86,8 @@
   #include "MK60F12.h"
 #elif KINETIS_MODEL == K70_120MHz
   #include "MK70F12.h"
+#elif KINETIS_MODEL == K64_120MHz
+  #include "MK64F12.h"
 #elif KINETIS_MODEL == KL0_48MHz
   #include "MKL05Z32LF4.h"
 #elif KINETIS_MODEL == KL1_48MHz

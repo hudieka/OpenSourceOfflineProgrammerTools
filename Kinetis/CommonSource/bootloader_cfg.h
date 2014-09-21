@@ -56,7 +56,20 @@
 #else
   //#include "AN2295_TWR_K20D50_cfg.h"
   //#include "AN2295_TWR_K20D72_cfg.h"
-  #include "AN2295_TWR_K60_cfg.h"
+  #if defined(KINETIS_K64)
+    #include "AN2295_TWR_K64_cfg.h"
+  #elif defined(KINETIS_K70)
+     #include "AN2295_TWR_K70120_cfg.h"
+  #elif defined(KINETIS_K60)
+     #include "AN2295_TWR_K60_cfg.h"
+  #endif
+
+ 
+
+
+
+
+
   //#include "AN2295_TWR_K60D100_cfg.h"
   //#include "AN2295_TWR_K70120_cfg.h"
   //#include "AN2295_TWR_K20_1M_cfg.h"

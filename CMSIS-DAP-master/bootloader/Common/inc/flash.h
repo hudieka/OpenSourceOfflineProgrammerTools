@@ -18,7 +18,7 @@
 
 #include <stdint.h>
 
-#define START_APP_ADDRESS (0x8000)
+#define START_APP_ADDRESS (0x10000)
 
 #if defined(TARGET_LPC11U35)
 #define SECTOR_SIZE       (0x1000)

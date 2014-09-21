@@ -37,7 +37,6 @@
 
 LWord *Pbuf  = 0;
 
-
 extern int __main(void);
 extern unsigned long __BOOT_STACK_ADDRESS[];
 void Delay(int time);
@@ -109,7 +108,7 @@ void Delay(int time)
   
 }
 
-
+ LWord ptest[16] = {0x00,0x01,0x02};
 
 //-----------------------------------------------------------------------------
 // FUNCTION:    Bootloader
@@ -142,39 +141,16 @@ int __main(void) @".mainptr"
 
   FLASH_Initialization();
 
-  #if 0
-
-  SIM_SCGC5_REG(SIM_BASE_PTR) |= SIM_SCGC5_PORTB_MASK;
-  SIM_SCGC5_REG(SIM_BASE_PTR) |= SIM_SCGC5_PORTD_MASK;
-  PORT_PCR_REG(PORTB_BASE_PTR,18) = PORT_PCR_MUX(1);
-  PORT_PCR_REG(PORTB_BASE_PTR,19) = PORT_PCR_MUX(1);
-  PORT_PCR_REG(PORTD_BASE_PTR,1) = PORT_PCR_MUX(1);
-
-  GPIO_PDDR_REG(PTB_BASE_PTR) |= (1 << 18);
-  GPIO_PDDR_REG(PTB_BASE_PTR) |= (1 << 19);
-  GPIO_PDDR_REG(PTD_BASE_PTR) |= (1 << 1);
-  
-  
-  while(1)
+#if 0
   {
-
-	if(HWBFR == 0x500)
-	{
-
-        if(*((unsigned int*)0x1fffff00) == 0x00)
-	    {
-			GPIO_PDDR_REG(PTB_BASE_PTR) &= ~(1 << 19);
-	    }
-	}
-  
+    FLASH_EraseSector(0x1000);
+    FLASH_ProgramSectionByLongs(0x1000, (LWord *)0x8000, 1024);
+    FLASH_ProgramSectionByLongs(0x1400, (LWord *)0x8000, 1024);
+    FLASH_ProgramSectionByLongs(0x1800, (LWord *)0x8000, 1024);
+    FLASH_ProgramSectionByLongs(0x1C00, (LWord *)0x8000, 1024);
+    while(1);
   }
-
-  //while(1)
-  //{
-	//GPIO_PTOR_REG(PTB_BASE_PTR) |= (1 << 18);
-    //Delay(2000);
-  //}
-  #endif
+#endif
   
   
   // this setup all clock
