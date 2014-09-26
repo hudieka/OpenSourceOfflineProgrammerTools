@@ -3438,7 +3438,7 @@
         <option>
           <name>OOCOutputFormat</name>
           <version>2</version>
-          <state>0</state>
+          <state>2</state>
         </option>
         <option>
           <name>OCOutputOverride</name>
@@ -3446,7 +3446,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>AN2295_Kinetis.srec</state>
+          <state>AN2295_Kinetis.bin</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
