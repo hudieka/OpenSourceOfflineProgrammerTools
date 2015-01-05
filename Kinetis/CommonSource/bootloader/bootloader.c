@@ -141,17 +141,6 @@ int __main(void) @".mainptr"
 
   FLASH_Initialization();
 
-#if 0
-  {
-    FLASH_EraseSector(0x1000);
-    FLASH_ProgramSectionByLongs(0x1000, (LWord *)0x8000, 1024);
-    FLASH_ProgramSectionByLongs(0x1400, (LWord *)0x8000, 1024);
-    FLASH_ProgramSectionByLongs(0x1800, (LWord *)0x8000, 1024);
-    FLASH_ProgramSectionByLongs(0x1C00, (LWord *)0x8000, 1024);
-    while(1);
-  }
-#endif
-  
   
   // this setup all clock
   //INIT_CLOCKS_TO_MODULES

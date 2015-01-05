@@ -130,6 +130,12 @@
 #define RAMBUF_SIZE 1024
 #define RAMBUF_ADDR 0x1ffffC00
 
+#elif defined(KINETIS_KE02)
+
+#define SECTOR_SIZE 512
+#define RAMBUF_SIZE 512
+#define RAMBUF_ADDR 0x1ffffE00
+
 #endif
 
 /** Bootloader protocol version */
