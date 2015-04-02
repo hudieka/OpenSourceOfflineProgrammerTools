@@ -48,7 +48,7 @@
           <OutputName>k20dx128_bootloader</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>1</CreateHexFile>
+          <CreateHexFile>0</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\Lst\</ListingPath>
@@ -76,7 +76,7 @@
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name>%KARM\ARMCC\bin\fromelf --m32combined --output=".\k20dx128_bootloader.S19" "#L"</UserProg1Name>
+            <UserProg1Name>%KARM\ARMCC\bin\fromelf --bin --output=".\k20dx128_bootloader.bin" "#L"</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -341,7 +341,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>2</Optim>
+            <Optim>3</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>0</OneElfS>
@@ -355,9 +355,9 @@
             <uSurpInc>0</uSurpInc>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>__RTX, TARGET_MK20DX, MKP128_50MHZ, INTERFACE_POWER_EN, OFFSET_VTABLE_20K</Define>
+              <Define>__RTX, TARGET_MK20DX, MKP128_50MHZ</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\shared\USBStack\INC;..\..\Common\inc;..\..\Common\src;..\..\..\shared\cmsis;..\..\..\shared\cmsis\TARGET_Freescale\TARGET_MK20DX;..\..\..\shared\rtos;..\..\hal\TARGET_Freescale\TARGET_MK20DX\C90TFS\drvsrc\include;..\..\interface\hal\TARGET_Freescale\TARGET_MK20DX;..\..\target\hal\DBG_Freescale\common;..\..\target\hal\DBG_Freescale\DBG_KL26Z</IncludePath>
+              <IncludePath>..\..\..\shared\USBStack\INC;..\..\Common\inc;..\..\Common\src;..\..\..\shared\cmsis;..\..\..\shared\cmsis\TARGET_Freescale\TARGET_MK20DX;..\..\..\shared\rtos;..\..\hal\TARGET_Freescale\TARGET_MK20DX\C90TFS\drvsrc\include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -385,7 +385,7 @@
             <useFile>0</useFile>
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x1FFFE000</DataAddressRange>
-            <ScatterFile>..\..\..\shared\cmsis\TARGET_Freescale\TARGET_MK20DX\TOOLCHAIN_ARM_STD\MK20D5_mbed_bootloader.sct</ScatterFile>
+            <ScatterFile>..\..\..\shared\cmsis\TARGET_Freescale\TARGET_MK20DX\TOOLCHAIN_ARM_STD\MK20D5.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc></Misc>
@@ -489,41 +489,6 @@
               <FileType>1</FileType>
               <FilePath>..\..\Common\src\version.c</FilePath>
             </File>
-            <File>
-              <FileName>Debug_cm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Common\src\Debug_cm.c</FilePath>
-            </File>
-            <File>
-              <FileName>swd_host.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Common\src\swd_host.c</FilePath>
-            </File>
-            <File>
-              <FileName>DAP.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Common\src\DAP.c</FilePath>
-            </File>
-            <File>
-              <FileName>JTAG_DP.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Common\src\JTAG_DP.c</FilePath>
-            </File>
-            <File>
-              <FileName>SW_DP.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Common\src\SW_DP.c</FilePath>
-            </File>
-            <File>
-              <FileName>semihost.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Common\src\semihost.c</FilePath>
-            </File>
-            <File>
-              <FileName>spi_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\interface\hal\TARGET_Freescale\TARGET_MK20DX\spi_flash.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -543,6 +508,11 @@
               <FileName>read_uid.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\hal\TARGET_Freescale\TARGET_MK20DX\read_uid.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbd_MK20D5.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\hal\TARGET_Freescale\TARGET_MK20DX\usbd_MK20D5.c</FilePath>
             </File>
             <File>
               <FileName>vector_table.c</FileName>
@@ -573,16 +543,6 @@
               <FileName>FlashCommandSequence.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\hal\TARGET_Freescale\TARGET_MK20DX\C90TFS\drvsrc\source\FlashCommandSequence.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_MK20D5.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\hal\TARGET_Freescale\TARGET_MK20DX\usbd_MK20D5.c</FilePath>
-            </File>
-            <File>
-              <FileName>target_reset_Lseries.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\target\hal\DBG_Freescale\common\target_reset_Lseries.c</FilePath>
             </File>
           </Files>
         </Group>

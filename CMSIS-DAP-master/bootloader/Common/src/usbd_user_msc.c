@@ -20,8 +20,6 @@
 #include "main.h"
 #include "tasks.h"
 #include "version.h"
-#include "Debug_cm.h"
-
 
 #if defined(TARGET_LPC11U35)
 #include <LPC11Uxx.h>
@@ -256,9 +254,9 @@ static const uint8_t fail[] = {
 
 // first 16 of the max 32 (mbr.max_root_dir_entries) root dir entries
 static const uint8_t root_dir1[] = {
-	// volume label "MBED"
-	  'P', 'r', 'o', 'g', 'r', 'a', 'm', 0x20, 0x20, 0x20, 0x20, 0x28, 0x0, 0x0, 0x0, 0x0,
-	  0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x85, 0x75, 0x8E, 0x41, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+    // volume label "BOOTLOADER"
+    'B', 'O', 'O', 'T', 'L', 'O', 'A', 'D', 'E', 'R', 0x20, 0x28, 0x0, 0x0, 0x0, 0x0,
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x85, 0x75, 0x8E, 0x41, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
 
     // Hidden files to keep mac happy
 
@@ -369,8 +367,6 @@ SECTOR sectors[] = {
     {(const uint8_t *)BlockBuf, 512},
 };
 
-uint32_t g_ulfilesize;
-
 static uint32_t size;
 static uint32_t nb_sector;
 static uint32_t current_sector;
@@ -419,12 +415,6 @@ static uint8_t * reason_array[] = {
 
 #define PROGRAM_PAGE_EVENT              (0x0008)
 #define FLASH_INIT_EVENT                (0x0004)
-#define FLASH_FLIESIZE_EVENT			(0x0002)
-#define FLASH_FLASHPRG_EVENT			    (0x0001)		//编程算法事件
-
-//yangliang add
-
-extern MSC_CBW     USBD_MSC_CBW;                  /* Command Block Wrapper */
 
 // 30 s timeout
 #define TIMEOUT_S 3000
@@ -488,66 +478,11 @@ static void enable_usb_irq(void){
 static int program_page(unsigned long adr, unsigned long sz, unsigned char *buf) {
     // USB interrupt will then be re-enabled in the flash programming thread
     disable_usb_irq();
-	if(adr == FILE_SIZE)
-	{
-		isr_evt_set(FLASH_FLIESIZE_EVENT, flash_programming_task_id);
-	}
-	else if(adr == KINETIS_FLASHPRG)
-	{
-		isr_evt_set(FLASH_FLASHPRG_EVENT, flash_programming_task_id);
-	}
-	else
-	{
-		isr_evt_set(PROGRAM_PAGE_EVENT, flash_programming_task_id); 
-	}
-   
+    isr_evt_set(PROGRAM_PAGE_EVENT, flash_programming_task_id);
     return 0;
-}
-
-
-static int program_flashprg()
-{
-    // if we have received two sectors, write into flash
-    if (!(current_sector % 2)) {
-        //flash_erase_sector(flashPtr);
-        if (program_page(KINETIS_FLASHPRG, 1024, (uint8_t *)BlockBuf)) {
-            return 1;
-        }
-
-        // if we just wrote the last sector -> disconnect usb
-        if (current_sector == nb_sector) {
-            initDisconnect(1);
-            return 0;
-        }
-
-    }
-
-    // we have to write the last sector which has a size of half a page
-    if (current_sector == nb_sector) {
-        if (current_sector % 2) {
-            //flash_erase_sector(flashPtr);
-            if (program_page(KINETIS_FLASHPRG + 512, 1024, (uint8_t *)BlockBuf)) {
-                return 1;
-            }
-        }
-        initDisconnect(1);
-    }
-    return 0;
-
-
 }
 
 static int program_sector() {
-	
-	//当烧写完成bin后，烧写文件大小
-	if(current_sector == nb_sector)
-	{
-		g_ulfilesize = USBD_MSC_CBW.dDataLength;
-		//save file size
-		program_page(FILE_SIZE, 1024, (uint8_t *)&nb_sector);
-	}
-
-	
     // if we have received two sectors, write into flash
     if (!(current_sector % 2)) {
         //flash_erase_sector(flashPtr);
@@ -586,21 +521,17 @@ __task void flash_programming_task(void) {
     uint32_t flags = 0, i;
     OS_RESULT res;
     flash_programming_task_id = os_tsk_self();
-    while(1) 
-	{
-        res = os_evt_wait_or(PROGRAM_PAGE_EVENT | FLASH_INIT_EVENT | FLASH_FLIESIZE_EVENT | FLASH_FLASHPRG_EVENT, NO_TIMEOUT);
-        if (res == OS_R_EVT) 
-		{
+    while(1) {
+        res = os_evt_wait_or(PROGRAM_PAGE_EVENT | FLASH_INIT_EVENT, NO_TIMEOUT);
+        if (res == OS_R_EVT) {
             flags = os_evt_get();
-            if (flags & PROGRAM_PAGE_EVENT) 
-			{
+            if (flags & PROGRAM_PAGE_EVENT) {
                 flash_program_page_svc(flashPtr, 1024, (uint8_t *)BlockBuf);
                 enable_usb_irq();
 
             }
 
-            if (flags & FLASH_INIT_EVENT) 
-			{
+            if (flags & FLASH_INIT_EVENT) {
                 // init flash
                 flash_init(SystemCoreClock);
 
@@ -611,17 +542,6 @@ __task void flash_programming_task(void) {
                 }
                 enable_usb_irq();
             }
-
-			if(flags & FLASH_FLIESIZE_EVENT)
-			{
-				flash_program_page_svc(FILE_SIZE,4, (uint8_t *)&g_ulfilesize);
-			}
-
-			if(flags & FLASH_FLASHPRG_EVENT)
-			{
-				flash_erase_sector_svc(KINETIS_FLASHPRG);
-				flash_program_page_svc(KINETIS_FLASHPRG, 1024, (uint8_t *)BlockBuf);
-			}
         }
     }
 }
@@ -694,18 +614,7 @@ int jtag_init()
         // USB interrupt will then be re-enabled in the flash programming thread
         disable_usb_irq();
 
-		if(good_file == 2)
-		{
-			// init flash
-			flash_init(SystemCoreClock);
-			
-			enable_usb_irq();
-
-		}
-		else
-		{
-			isr_evt_set(FLASH_INIT_EVENT, flash_programming_task_id);
-		}
+        isr_evt_set(FLASH_INIT_EVENT, flash_programming_task_id);
 
         jtag_flash_init = 1;
     }
@@ -795,8 +704,8 @@ int search_bin_file(uint8_t * root, uint8_t sector) {
         // Determine file type and get the flash offset
         file_type = get_file_type(&pDirEnts[i], &offset);
 
-        if (file_type == BIN_FILE ) 
-		{
+        if (file_type == BIN_FILE || file_type == PAR_FILE ||
+            file_type == DOW_FILE || file_type == CRD_FILE || file_type == SPI_FILE) {
 
             hidden_file = (pDirEnts[i].attributes & 0x02) ? 1 : 0;
 
@@ -843,9 +752,6 @@ int search_bin_file(uint8_t * root, uint8_t sector) {
 
             adapt_th_sector = 0;
 
-			//save file size
-			//program_page(FILE_SIZE, 1024, (uint8_t *)(&nb_sector));
-
             // on mac, with safari, we receive all the files with some more sectors at the beginning
             // we have to move the sectors... -> 2x slower
             if ((start_sector != 0) && (start_sector < begin_sector) && (current_sector - (begin_sector - start_sector) >= nb_sector)) {
@@ -859,7 +765,6 @@ int search_bin_file(uint8_t * root, uint8_t sector) {
                 for (i = 0; i < nb_sector_to_move; i++) {
 					program_page(START_APP_ADDRESS + i*1024, 1024, (uint8_t *)BlockBuf);
                 }
-				
                 initDisconnect(1);
                 return -1;
             }
@@ -872,40 +777,7 @@ int search_bin_file(uint8_t * root, uint8_t sector) {
         }
         // if we receive a new file which does not have the good extension
         // fail and disconnect usb
-        else if(file_type == CRD_FILE)
-        {
-			hidden_file = (pDirEnts[i].attributes & 0x02) ? 1 : 0;
-
-            // compute the size of the file
-            size = pDirEnts[i].filesize;
-
-            if (size == 0) {
-              // skip empty files
-                continue;
-            }
-
-            // read the cluster number where data are stored (ignoring the
-            // two high bytes in the cluster number)
-            //
-            // Convert cluster number to sector number by moving past the root
-            // dir and fat tables.
-            //
-            // The cluster numbers start at 2 (0 and 1 are never used).
-            begin_sector = (pDirEnts[i].first_cluster_low_16 - 2) * WANTED_SECTORS_PER_CLUSTER + SECTORS_FIRST_FILE_IDX;
-
-            // compute the number of sectors
-            nb_sector = (size + MBR_BYTES_PER_SECTOR - 1) / MBR_BYTES_PER_SECTOR;
-
-			found = 1;
-            idx = i; // this is the file we want
-            good_file = 2;
-            //flash_addr_offset = offset;
-            break;
-
-			
-		}
-        else if (file_type == UNSUP_FILE) 
-		{
+        else if (file_type == UNSUP_FILE) {
             reason = BAD_EXTENSION_FILE;
             initDisconnect(0);
             return -1;
@@ -974,8 +846,8 @@ void usbd_msc_read_sect (uint32_t block, uint8_t *buf, uint32_t num_of_blocks)
 
 void usbd_msc_write_sect (uint32_t block, uint8_t *buf, uint32_t num_of_blocks)
 {
-    
-	int idx_size = 0;
+    int idx_size = 0;
+
     if (listen_msc_isr == 0)
         return;
 
@@ -1083,41 +955,18 @@ void usbd_msc_write_sect (uint32_t block, uint8_t *buf, uint32_t num_of_blocks)
             }
 
             previous_sector = block;
-			//烧写编程文件
-			if(good_file == 2)
-			{
-				// adapt index in buffer
-				current_sector++;
-				USBD_MSC_BlockBuf = (current_sector % 2) ? (uint8_t *)BlockBuf + 512 : (uint8_t *)BlockBuf;
-				if (program_flashprg() == 1) 
-				{
-					if (good_file) 
-					{
-						reason = RESERVED_BITS;
-						initDisconnect(0);
-						return;
-					}
-					program_page_error = 1;
-					return;
-				}
-			}
-			else
-			{
-				// adapt index in buffer
-				current_sector++;
-				USBD_MSC_BlockBuf = (current_sector % 2) ? (uint8_t *)BlockBuf + 512 : (uint8_t *)BlockBuf;
-				if (program_sector() == 1) {
-					if (good_file) {
-						reason = RESERVED_BITS;
-						initDisconnect(0);
-						return;
-					}
-					program_page_error = 1;
-					return;
-				}
-			}
-			
-
+            // adapt index in buffer
+            current_sector++;
+            USBD_MSC_BlockBuf = (current_sector % 2) ? (uint8_t *)BlockBuf + 512 : (uint8_t *)BlockBuf;
+            if (program_sector() == 1) {
+                if (good_file) {
+                    reason = RESERVED_BITS;
+                    initDisconnect(0);
+                    return;
+                }
+                program_page_error = 1;
+                return;
+            }
         }
     }
 }

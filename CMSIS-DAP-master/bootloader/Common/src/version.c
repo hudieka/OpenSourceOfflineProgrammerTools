@@ -98,11 +98,6 @@ static void setup_string_descriptor() {
     string_auth_descriptor[idx] = 0;
 }
 
-
-uint8_t * get_uid_string(void) {
-    return string_auth;
-}
-
 uint8_t get_len_string_interface(void) {
     return 2 + strlen((const char *)(string_auth+4))*2;
 }

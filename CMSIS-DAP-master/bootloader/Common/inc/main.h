@@ -18,19 +18,6 @@
 
 #include <stdint.h>
 
-#define TRANSFER_FINISHED_SUCCESS       (1 << 0)
-#define TRANSFER_FINISHED_FAIL          (1 << 1)
-#define PROGRAMMING_FINISH				(1 << 2)
-#define PROGRAMMING_FAIL				(1 << 3)
-
-
 void main_transfer_finished(uint8_t success);
-void main_reset_target(uint8_t send_unique_id);
-void main_disable_debug_event(void);
-void main_powerdown_event(void);
-
-
-
-
 
 #endif
